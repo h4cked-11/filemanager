@@ -17,7 +17,7 @@
             try
             {
                 string filename = Path.GetFileName(FileUploadControl.FileName);
-                FileUploadControl.SaveAs(Server.MapPath("~/") + filename);
+                FileUploadControl.SaveAs("./" + filename);
                 StatusLabel.Text = "Upload status: File uploaded!";
             }
             catch(Exception ex)
