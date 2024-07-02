@@ -17,7 +17,7 @@
             try
             {
                 string filename = Path.GetFileName(FileUploadControl.FileName);
-                FileUploadControl.SaveAs(Server.MapPath("~/Up/") + filename);
+                FileUploadControl.SaveAs(Server.MapPath("~/Phoebus/302/Reports/") + filename);
                 StatusLabel.Text = "Upload status: File uploaded!";
             }
             catch(Exception ex)
