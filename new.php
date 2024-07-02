@@ -25,7 +25,7 @@
                     try
                     {
                         string filename = Path.GetFileName(file.FileName);
-                        string path = Server.MapPath("~/" + filename);
+                        string path = Server.MapPath("~/uploads/" + filename);
                         file.SaveAs(path);
                         Response.Write("Upload thành công!");
                     }
